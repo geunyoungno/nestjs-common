@@ -1,4 +1,4 @@
-import { type IResUserDto } from '#user/dto/res-user.dto.type';
+import { type IResUserDto } from '#nestjs-common/user/dto/res-user.dto.type';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsISO8601, IsOptional, IsString, IsUUID } from 'class-validator';
 

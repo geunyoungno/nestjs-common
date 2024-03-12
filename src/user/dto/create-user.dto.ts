@@ -1,4 +1,4 @@
-import { IsISO8601Datetime } from '#common/decorator/is-iso-8601-datetime.decorator';
+import { IsISO8601Datetime } from '#nestjs-common/common/decorator/is-iso-8601-datetime.decorator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsOptional, IsString } from 'class-validator';
