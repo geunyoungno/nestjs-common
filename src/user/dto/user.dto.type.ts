@@ -1,4 +1,4 @@
-export interface IResUserDto {
+export interface IUserDto {
   /** 사용자 고유번호 */
   uuid: string;
 
