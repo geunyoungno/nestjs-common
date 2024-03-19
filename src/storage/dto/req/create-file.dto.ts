@@ -1,0 +1,25 @@
+import { type ICreateFileDto } from '#nestjs-common/storage/dto/req/create-file.dto.type';
+import { FileMetadataDto } from '#nestjs-common/storage/dto/req/file.dto';
+import { ApiConsumes } from '@nestjs/swagger';
+import { Transform, Type } from 'class-transformer';
+import { IsArray, ValidateNested } from 'class-validator';
+
+@ApiConsumes('multipart/form-data')
+export class CreateFileDto implements ICreateFileDto {
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => FileMetadataDto)
+  // controller 에서 UsePipes를 사용해서 변환해 보았지만, Dto 쪽을 먼저 validation 하는지 되지를 검증에 실패하였다.
+  @Transform((args) => {
+    // NOTE: 개행문자가 포함된 문자로 오기 때문에 변환해 준다.
+    const replacedValue = `[${args.value.replace(/\n|\r|\s*/g, '')}]`;
+    return JSON.parse(replacedValue);
+  })
+  metadatas!: FileMetadataDto[];
+
+  /**
+   * 실제로 가져오지 못하고 있음...
+   * req?.storageFiles 에서 직접 가져와서 넣어줘야 될듯하다.
+   */
+  files!: ICreateFileDto['files'];
+}
