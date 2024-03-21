@@ -30,9 +30,9 @@
     "noImplicitReturns": true,
     "resolveJsonModule": true,
     "paths": {
-      "#nestjs-common/*": ["src/*"],
+      "#nestjs-common/*": ["src/*"]
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["dist/**", "test/**"]
+  "exclude": ["dist/**"]
 }
