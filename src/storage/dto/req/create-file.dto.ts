@@ -1,11 +1,10 @@
 import { type ICreateFileDto } from '#nestjs-common/storage/dto/req/create-file.dto.type';
 import { FileMetadataDto } from '#nestjs-common/storage/dto/req/file.dto';
-import { ApiConsumes } from '@nestjs/swagger';
+import { type MemoryStorageFile } from '@gersur/nest-file-fastify';
 import { Transform, Type } from 'class-transformer';
-import { IsArray, ValidateNested } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, IsArray, ValidateNested } from 'class-validator';
 
-@ApiConsumes('multipart/form-data')
-export class CreateFileDto implements ICreateFileDto {
+export class CreateFileDto implements Pick<ICreateFileDto, 'metadatas'> {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => FileMetadataDto)
@@ -15,11 +14,11 @@ export class CreateFileDto implements ICreateFileDto {
     const replacedValue = `[${args.value.replace(/\n|\r|\s*/g, '')}]`;
     return JSON.parse(replacedValue);
   })
+  @ArrayMinSize(1)
+  @ArrayMaxSize(10)
   metadatas!: FileMetadataDto[];
 
-  /**
-   * 실제로 가져오지 못하고 있음...
-   * req?.storageFiles 에서 직접 가져와서 넣어줘야 될듯하다.
-   */
-  files!: ICreateFileDto['files'];
+  @ArrayMinSize(1)
+  @ArrayMaxSize(10)
+  files!: MemoryStorageFile[];
 }
